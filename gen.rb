@@ -1,3 +1,5 @@
+require 'benchmark'
+
 def generate_primes(max_prime)
   @prime_hash = Hash.new { |h,k| h[k] = true }
   @primes = [ 2 ]  
@@ -13,6 +15,10 @@ end
 
 
 max = 10**6
-puts "Generating all primes less than #{max}"
-generate_primes(max)
-puts "#{@primes.size} primes found"
+Benchmark.bm(40) do |bm|
+  5.times do
+    bm.report("Generating all primes less than #{max}") do
+      generate_primes(max)
+    end
+  end
+end
